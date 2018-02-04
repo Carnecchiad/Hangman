@@ -15,16 +15,17 @@ public class Hangman implements KeyListener{
 	}
 	
 	String popped = "";
-	
+	String theString =  "";
 	Hangman()
 	{
-	
+		
+		
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel();
 		
 		frame.add(panel);
-		
+		frame.addKeyListener(this);
 		frame.setVisible(true);
 		panel.add(label);
 		
@@ -59,8 +60,9 @@ public class Hangman implements KeyListener{
 			{
 			String currentword = stack.pop();
 			popped = currentword;
+			theString = dashes(popped);
 			System.out.println(popped);
-			label.setText(dashes(popped));
+			label.setText(theString);
 			//frame.requestFocus();
 			}
 			
@@ -83,6 +85,14 @@ public class Hangman implements KeyListener{
 		return x;
 		
 	}
+	public String newString(char key,String lastWord,int num)
+	{
+		System.out.println(lastWord.substring(0, num));
+		System.out.println(lastWord.substring(num+1,lastWord.length()));
+		String x = lastWord.substring(num) + key +lastWord.substring(num+1,lastWord.length());
+		
+		return x;
+	}
 
 
 	@Override
@@ -90,19 +100,25 @@ public class Hangman implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("pressed");
-		int key = e.getKeyChar();
-		System.err.println(key);
+		
+		System.out.println(theString);
+		char key = e.getKeyChar(); 
+		String temp = "";
 		for (int i = 0; i < popped.length(); i++) {
 			if(popped.charAt(i) == key) {
-				System.out.println("e");
+				temp+=popped.charAt(i);
+				
 			}
+			else
+			{
+				temp+=theString.charAt(i);
+			}
+			
 		}
-		
+		theString = temp;
 	}
 
 	@Override
